@@ -1,0 +1,55 @@
+N = 8
+
+# Gerakan kuda
+move_x = [2, 1, -1, -2, -2, -1, 1, 2]
+move_y = [1, 2, 2, 1, -1, -2, -2, -1]
+
+# Mengecek apakah langkah valid
+def is_valid(x, y, board):
+    return 0 <= x < N and 0 <= y < N and board[x][y] == -1
+
+# Fungsi rekursif
+def knight_tour(x, y, langkah, board):
+
+    # Jika semua kotak sudah dikunjungi
+    if langkah == N * N:
+        return True
+
+    # Mencoba semua kemungkinan gerakan
+    for i in range(8):
+        next_x = x + move_x[i]
+        next_y = y + move_y[i]
+
+        if is_valid(next_x, next_y, board):
+            board[next_x][next_y] = langkah
+
+            if knight_tour(next_x, next_y, langkah + 1, board):
+                return True
+
+            # Backtracking
+            board[next_x][next_y] = -1
+
+    return False
+
+# Membuat papan
+board = [[-1 for _ in range(N)] for _ in range(N)]
+
+# Input posisi awal
+start_x = int(input("Masukkan posisi awal baris (0-7): "))
+start_y = int(input("Masukkan posisi awal kolom (0-7): "))
+
+# Posisi awal
+board[start_x][start_y] = 0
+
+# Menjalankan program
+if knight_tour(start_x, start_y, 1, board):
+
+    print("\nSolusi Knight's Tour:\n")
+
+    for row in board:
+        for col in row:
+            print(f"{col:2}", end=" ")
+        print()
+
+else:
+    print
