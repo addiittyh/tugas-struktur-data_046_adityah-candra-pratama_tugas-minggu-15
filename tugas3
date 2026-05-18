@@ -1,0 +1,26 @@
+def knapsack(barang, target, index=0, hasil=[]):
+    total = sum(hasil)
+
+    if total == target:
+        return hasil
+
+    if total > target or index >= len(barang):
+        return None
+
+    # ambil barang
+    ambil = knapsack(barang, target, index + 1, hasil + [barang[index]])
+    if ambil:
+        return ambil
+
+    # tidak ambil barang
+    return knapsack(barang, target, index + 1, hasil)
+
+barang = [2, 5, 6, 9, 12, 14, 20]
+target = 30
+
+hasil = knapsack(barang, target)
+
+if hasil:
+    print("Kombinasi ditemukan:", hasil)
+else:
+    print("Tidak ada solusi")
